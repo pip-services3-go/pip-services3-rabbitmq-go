@@ -20,14 +20,14 @@ func NewRabbitMQMessageQueueFactory() *RabbitMQMessageQueueFactory {
 	c.Descriptor = cref.NewDescriptor("pip-services3-rabbitmq", "factory", "message-queue", "rabbitmq", "1.0")
 	c.MemoryQueueDescriptor = cref.NewDescriptor("pip-services3-rabbitmq", "message-queue", "rabbitmq", "*", "*")
 
-	c.Register(MemoryQueueDescriptor, func(locator interface{}) interface{} {
-		descriptor := locator.(cref.Descriptor)
-		queue := NewRabbitMQMessageQueue(descriptor.Name())
+	c.Register(c.MemoryQueueDescriptor, func() interface{} {
+		queue := NewEmptyRabbitMQMessageQueue(c.MemoryQueueDescriptor.Name())
 		if c.config != nil {
-			queue.Configure(config)
+			queue.Configure(c.config)
 		}
 		return queue
 	})
+	return &c
 }
 
 func (c *RabbitMQMessageQueueFactory) Configure(config *cconf.ConfigParams) {
