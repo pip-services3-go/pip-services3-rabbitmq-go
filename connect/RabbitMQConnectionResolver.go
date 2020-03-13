@@ -76,7 +76,7 @@ func (c *RabbitMQConnectionResolver) validateConnection(correlationId string, co
 	protocol := connection.GetAsString("protocol")
 	if protocol == "" {
 		//return cerr.NewConfigError(correlationId, "NO_PROTOCOL", "Connection protocol is not set")
-		protocol = "amqp"
+		connection.SetAsObject("protocol", "amqp")
 	}
 
 	host := connection.Host()
