@@ -103,8 +103,8 @@ func (c *RabbitMQConnectionResolver) composeOptions(connection *ccon.ConnectionP
 	// Compose uri
 	if options.Get("uri") == "" {
 		credential := ""
-		if options.Get("usernamme") != "" {
-			credential = options.Get("usernamme")
+		if options.Get("username") != "" {
+			credential = options.Get("username")
 		}
 		if options.Get("password") != "" {
 			credential += ":" + options.Get("password")
