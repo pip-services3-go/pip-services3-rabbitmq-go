@@ -1,17 +1,22 @@
-# Build stage
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM golang:1.13
 
-# set working directory
+# Set environment variables for Go
+ENV GO111MODULE=on \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
+
+# Set a working directory
 WORKDIR /app
 
-# Restore
-COPY src/src.csproj ./src/
-RUN dotnet restore src/src.csproj
-COPY test/test.csproj ./test/
-RUN dotnet restore test/test.csproj
+# Copy the package files
+COPY go.mod ./
 
-# Copy src
+# Install all go_modules
+RUN go mod download
+
+# Copy the entire project
 COPY . .
 
-# Test
-CMD [ "dotnet", "test", "test/test.csproj" ]
+# Specify the command from running tests
+CMD go test -v ./test/...
