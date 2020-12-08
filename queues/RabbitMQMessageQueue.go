@@ -14,47 +14,34 @@ import (
 )
 
 /*
-   Message queue that sends and receives messages via MQTT message broker.
+Message queue that sends and receives messages via MQTT message broker.
 
-   MQTT is a popular light-weight protocol to communicate IoT devices.
+MQTT is a popular light-weight protocol to communicate IoT devices.
 
-   Configuration parameters:
+Configuration parameters:
 
-   - topic:                         name of MQTT topic to subscribe
+  - topic:                         name of MQTT topic to subscribe
 
-   connection(s):
-   - discovery_key:               (optional) a key to retrieve the connection from <a href="https://rawgit.com/pip-services3-dotnet/pip-services3-components-dotnet/master/doc/api/interface_pip_services_1_1_components_1_1_connect_1_1_i_discovery.html IDiscovery</a>
-   - host:                        host name or IP address
-   - port:                        port number
-   - uri:                         resource URI or connection string with all parameters in it
+  connection(s):
+  - discovery_key:               (optional) a key to retrieve the connection from  IDiscovery
+  - host:                        host name or IP address
+  - port:                        port number
+  - uri:                         resource URI or connection string with all parameters in it
 
-   credential(s):
-   - store_key:                   (optional) a key to retrieve the credentials from <a href="https://rawgit.com/pip-services3-dotnet/pip-services3-components-dotnet/master/doc/api/interface_pip_services_1_1_components_1_1_auth_1_1_i_credential_store.html ICredentialStore</a>
-   - username:                    user name
-   - password:                    user password
+  credential(s):
+  - store_key:                   (optional) a key to retrieve the credentials from ICredentialStore
+  - username:                    user name
+  - password:                    user password
 
-   References:
+References:
 
-   - *:logger:*:*:1.0             (optional) <a href="https://rawgit.com/pip-services3-dotnet/pip-services3-components-dotnet/master/doc/api/interface_pip_services_1_1_components_1_1_log_1_1_i_logger.html ILogger</a> components to pass log messages
-   - *:counters:*:*:1.0           (optional) <a href="https://rawgit.com/pip-services3-dotnet/pip-services3-components-dotnet/master/doc/api/interface_pip_services_1_1_components_1_1_count_1_1_i_counters.html ICounters</a> components to pass collected measurements
-   - *:discovery:*:*:1.0          (optional) <a href="https://rawgit.com/pip-services3-dotnet/pip-services3-components-dotnet/master/doc/api/interface_pip_services_1_1_components_1_1_connect_1_1_i_discovery.html IDiscovery</a> services to resolve connections
-   - *:credential-store:*:*:1.0   (optional) Credential stores to resolve credentials
+- *:logger:*:*:1.0             (optional) ILogger components to pass log messages
+- *:counters:*:*:1.0           (optional) ICounters components to pass collected measurements
+- *:discovery:*:*:1.0          (optional) IDiscovery services to resolve connections
+- *:credential-store:*:*:1.0   (optional) Credential stores to resolve credentials
 
-
-
-   var queue = new RabbitMQMessageQueue("myqueue");
-   queue.configure(ConfigParams.FromTuples(
-   "topic", "mytopic",
-   "connection.protocol", "mqtt"
-   "connection.host", "localhost"
-   "connection.port", 1883 ));
-   queue.Open("123");
-
-   queue.Send("123", new MessageEnvelop(null, "mymessage", "ABC"));
-   queue.Receive("123", 0);
-   queue.Complete("123", message);
+TODO: example
 */
-
 type RabbitMQMessageQueue struct {
 	*msgqueues.MessageQueue
 	defaultCheckInterval int64
@@ -117,7 +104,7 @@ func NewRabbitMQMessageQueue(name string, mqChanel *rabbitmq.Channel, queue stri
 }
 
 //  Configures component by passing configuration parameters.
-//  - config configuration parameters to be set.
+//    - config configuration parameters to be set.
 func (c *RabbitMQMessageQueue) Configure(config *cconf.ConfigParams) {
 	c.MessageQueue.Configure(config)
 
@@ -149,9 +136,9 @@ func (c *RabbitMQMessageQueue) IsOpen() bool {
 }
 
 //  Opens the component with given connection and credential parameters.
-//  - correlationId (optional) transaction id to trace execution through call chain.
-//  - connection connection parameters
-//  - credential credential parameters
+//    - correlationId (optional) transaction id to trace execution through call chain.
+//    - connection connection parameters
+//    - credential credential parameters
 func (c *RabbitMQMessageQueue) OpenWithParams(correlationId string, connection *ccon.ConnectionParams, credential *cauth.CredentialParams) error {
 
 	options, err := c.optionsResolver.Compose(correlationId, connection, credential)
@@ -297,8 +284,8 @@ func (c *RabbitMQMessageQueue) toMessage(envelope *rabbitmq.Delivery) *msgqueues
 
 //  Send method are sends a message into the queue.
 //  Parameters:
-//  - correlationId (optional) transaction id to trace execution through call chain.
-//  - message a message envelop to be sent.
+//    - correlationId (optional) transaction id to trace execution through call chain.
+//    - message a message envelop to be sent.
 func (c *RabbitMQMessageQueue) Send(correlationId string, message *msgqueues.MessageEnvelope) (err error) {
 	err = c.checkOpened(correlationId)
 	if err != nil {
@@ -332,7 +319,7 @@ func (c *RabbitMQMessageQueue) Send(correlationId string, message *msgqueues.Mes
 //  Peeks a single incoming message from the queue without removing it.
 //  If there are no messages available in the queue it returns nil.
 //  Parameters:
-//  - correlationId (optional) transaction id to trace execution through call chain.
+//    - correlationId (optional) transaction id to trace execution through call chain.
 //  Returns: a message
 func (c *RabbitMQMessageQueue) Peek(correlationId string) (result *msgqueues.MessageEnvelope, err error) {
 	err = c.checkOpened(correlationId)
@@ -359,8 +346,8 @@ func (c *RabbitMQMessageQueue) Peek(correlationId string) (result *msgqueues.Mes
 //  PeekBatch method are peeks multiple incoming messages from the queue without removing them.
 //  If there are no messages available in the queue it returns an empty list.
 //  Parameters:
-//   - correlationId (optional) transaction id to trace execution through call chain.
-//   - messageCount a maximum number of messages to peek.
+//    - correlationId (optional) transaction id to trace execution through call chain.
+//    - messageCount a maximum number of messages to peek.
 //  Returns: a list with messages
 func (c *RabbitMQMessageQueue) PeekBatch(correlationId string, messageCount int64) (result []msgqueues.MessageEnvelope, err error) {
 	err = c.checkOpened(correlationId)
@@ -385,8 +372,8 @@ func (c *RabbitMQMessageQueue) PeekBatch(correlationId string, messageCount int6
 
 //  Receive method are receives an incoming message and removes it from the queue.
 //  Parameters:
-//  - correlationId (optional) transaction id to trace execution through call chain.
-//  - waitTimeout a timeout in milliseconds to wait for a message to come.
+//    - correlationId (optional) transaction id to trace execution through call chain.
+//    - waitTimeout a timeout in milliseconds to wait for a message to come.
 //  Returns: a message
 func (c *RabbitMQMessageQueue) Receive(correlationId string, waitTimeout time.Duration) (result *msgqueues.MessageEnvelope, err error) {
 
@@ -445,8 +432,8 @@ func (c *RabbitMQMessageQueue) Receive(correlationId string, waitTimeout time.Du
 //  This method is usually used to extend the message processing time.
 //  Important: This method is not supported by MQTT.
 //  Parameters:
-//  - message a message to extend its lock.
-//  - lockTimeout a locking timeout in milliseconds.
+//    - message a message to extend its lock.
+//    - lockTimeout a locking timeout in milliseconds.
 func (c *RabbitMQMessageQueue) RenewLock(message *msgqueues.MessageEnvelope, lockTimeout time.Duration) (err error) {
 
 	// Operation is not supported
@@ -459,7 +446,7 @@ func (c *RabbitMQMessageQueue) RenewLock(message *msgqueues.MessageEnvelope, loc
 //  or/and send to dead letter queue.
 //  Important: This method is not supported by MQTT.
 //  Parameters:
-//  - message a message to return.
+//    - message a message to return.
 func (c *RabbitMQMessageQueue) Abandon(message *msgqueues.MessageEnvelope) (err error) {
 	err = c.checkOpened("")
 	if err != nil {
@@ -484,7 +471,7 @@ func (c *RabbitMQMessageQueue) Abandon(message *msgqueues.MessageEnvelope) (err 
 //  This method is usually used to remove the message after successful processing.
 //  Important: This method is not supported by MQTT.
 //  Parameters:
-//  - message a message to remove.
+//    - message a message to remove.
 func (c *RabbitMQMessageQueue) Complete(message *msgqueues.MessageEnvelope) (err error) {
 	err = c.checkOpened("")
 	if err != nil {
@@ -503,7 +490,7 @@ func (c *RabbitMQMessageQueue) Complete(message *msgqueues.MessageEnvelope) (err
 //  Permanently removes a message from the queue and sends it to dead letter queue.
 //  Important: This method is not supported by MQTT.
 //  Parameters:
-//  - message a message to be removed.
+//    - message a message to be removed.
 //  Returns:
 func (c *RabbitMQMessageQueue) MoveToDeadLetter(message *msgqueues.MessageEnvelope) (err error) {
 	err = c.checkOpened("")
@@ -519,8 +506,8 @@ func (c *RabbitMQMessageQueue) MoveToDeadLetter(message *msgqueues.MessageEnvelo
 
 //  Listens for incoming messages and blocks the current thread until queue is closed.
 // Parameters:
-//  - correlationId (optional) transaction id to trace execution through call chain.
-//  - callback
+//    - correlationId (optional) transaction id to trace execution through call chain.
+//    - callback
 //  Returns:
 func (c *RabbitMQMessageQueue) Listen(correlationId string, receiver msgqueues.IMessageReceiver) {
 	err := c.checkOpened("")
@@ -582,7 +569,7 @@ func (c *RabbitMQMessageQueue) Listen(correlationId string, receiver msgqueues.I
 //  Ends listening for incoming messages.
 //  When this method is call listen unblocks the thread and execution continues.
 //  Parameters:
-//  - correlationId (optional) transaction id to trace execution through call chain.
+//    - correlationId (optional) transaction id to trace execution through call chain.
 func (c *RabbitMQMessageQueue) EndListen(correlationId string) {
 	if c.cancel != nil {
 		c.cancel <- true
@@ -591,7 +578,7 @@ func (c *RabbitMQMessageQueue) EndListen(correlationId string) {
 
 //  Clear method are clears component state.
 //  Parameters:
-//  - correlationId (optional) transaction id to trace execution through call chain.
+//    - correlationId (optional) transaction id to trace execution through call chain.
 //  Returns:
 func (c *RabbitMQMessageQueue) Clear(correlationId string) (err error) {
 	err = c.checkOpened("")
