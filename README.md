@@ -5,6 +5,7 @@ The RabbitMQ module contains a set of components for working with the message qu
 
 The module contains the following packages:
 - [**Build**](https://godoc.org/github.com/pip-services3-go/pip-services3-rabbitmq-go/build) - Factory for constructing module components
+- [**Connect**](https://godoc.org/github.com/pip-services3-go/pip-services3-rabbitmq-go/connect) - Components for creating and configuring a connection with RabbitMQ
 - [**Queues**](https://godoc.org/github.com/pip-services3-go/pip-services3-rabbitmq-go/queues) - Message Queuing components that implement the standard [Messaging](https://github.com/pip-services3-go/pip-services3-messaging-go) module interface
 
 <a name="links"></a> Quick links:
