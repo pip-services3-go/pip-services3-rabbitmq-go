@@ -6,3 +6,21 @@ services:
       context: ..
       dockerfile: docker/Dockerfile.test
     image: ${IMAGE:-pipdevs/test}
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USER=test
+      - RABBITMQ_PASS=password
+      - RABBITMQ_QUEUE=test
+      - RABBITMQ_EXCHANGE=test
+
+  rabbitmq:
+    image: rabbitmq:3.8.9-alpine
+    environment: 
+      RABBITMQ_DEFAULT_USER: test
+      RABBITMQ_DEFAULT_PASS: password
+    # container_name: rabbitmq
+    # ports:
+    #   - "5672:5672"

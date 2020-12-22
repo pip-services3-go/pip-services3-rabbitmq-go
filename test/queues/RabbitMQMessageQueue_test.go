@@ -53,8 +53,8 @@ func TestRabbitMQMessageQueue(t *testing.T) {
 		//"connection.protocol", "amqp",
 		"connection.host", rabbitmqHost,
 		"connection.port", rabbitmqPort,
-		//"credential.username", rabbitmqUser,
-		//"credential.password", rabbitmqPassword,
+		"credential.username", rabbitmqUser,
+		"credential.password", rabbitmqPassword,
 	)
 
 	queue = rabbitqueue.NewEmptyRabbitMQMessageQueue("testQueue")
