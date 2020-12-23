@@ -161,7 +161,6 @@ func (c *RabbitMQMessageQueue) OpenWithParams(correlationId string, connection *
 	if err != nil {
 		return err
 	}
-	//c.cancel = make(chan bool)
 
 	// Automatically create queue, exchange and binding
 	if c.autoCreate {
@@ -304,7 +303,7 @@ func (c *RabbitMQMessageQueue) Send(correlationId string, message *msgqueues.Mes
 	if message.Message_id != "" {
 		messageBuffer.MessageId = message.Message_id
 	}
-	//messageBuffer.Persistent = c.persistent
+	
 	if message.Message_type != "" {
 		messageBuffer.Type = message.Message_type
 	}
