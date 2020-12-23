@@ -26,6 +26,10 @@ func (c *MessageQueueFixture) TestSendReceiveMessage(t *testing.T) {
 	sndErr := c.queue.Send("", envelope1)
 	assert.Nil(t, sndErr)
 
+	select {
+	case <-time.After(100 * time.Millisecond):
+	}
+
 	count, rdErr := c.queue.ReadMessageCount()
 	assert.Nil(t, rdErr)
 	assert.Greater(t, count, (int64)(0))
@@ -78,6 +82,10 @@ func (c *MessageQueueFixture) TestReceiveCompleteMessage(t *testing.T) {
 
 	sndErr := c.queue.Send("", envelope1)
 	assert.Nil(t, sndErr)
+
+	select {
+	case <-time.After(100 * time.Millisecond):
+	}
 
 	count, rdErr := c.queue.ReadMessageCount()
 	assert.Nil(t, rdErr)
@@ -134,6 +142,10 @@ func (c *MessageQueueFixture) TestSendPeekMessage(t *testing.T) {
 
 	sndErr := c.queue.Send("", envelope1)
 	assert.Nil(t, sndErr)
+
+	select {
+	case <-time.After(100 * time.Millisecond):
+	}
 
 	result, pkErr := c.queue.Peek("")
 	assert.Nil(t, pkErr)

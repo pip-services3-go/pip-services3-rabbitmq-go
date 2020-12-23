@@ -6,6 +6,7 @@ import (
 
 	cconf "github.com/pip-services3-go/pip-services3-commons-go/config"
 	rabbitqueue "github.com/pip-services3-go/pip-services3-rabbitmq-go/queues"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestRabbitMQMessageQueue(t *testing.T) {
@@ -70,17 +71,23 @@ func TestRabbitMQMessageQueue(t *testing.T) {
 	defer queue.Close("")
 
 	t.Run("RabbitMQMessageQueue:Send Receive Message", fixture.TestSendReceiveMessage)
-	queue.Clear("")
+	err := queue.Clear("")
+	assert.Nil(t, err)
 	t.Run("RabbitMQMessageQueue:Receive Send Message", fixture.TestReceiveSendMessage)
-	queue.Clear("")
+	err = queue.Clear("")
+	assert.Nil(t, err)
 	t.Run("RabbitMQMessageQueue:Receive And Complete Message", fixture.TestReceiveCompleteMessage)
-	queue.Clear("")
+	err = queue.Clear("")
+	assert.Nil(t, err)
 	t.Run("RabbitMQMessageQueue:Receive And Abandon Message", fixture.TestReceiveAbandonMessage)
-	queue.Clear("")
+	err = queue.Clear("")
+	assert.Nil(t, err)
 	t.Run("RabbitMQMessageQueue:Send Peek Message", fixture.TestSendPeekMessage)
-	queue.Clear("")
+	err = queue.Clear("")
+	assert.Nil(t, err)
 	t.Run("RabbitMQMessageQueue:Peek No Message", fixture.TestPeekNoMessage)
-	queue.Clear("")
+	err = queue.Clear("")
+	assert.Nil(t, err)
 	t.Run("RabbitMQMessageQueue:On Message", fixture.TestOnMessage)
 
 }

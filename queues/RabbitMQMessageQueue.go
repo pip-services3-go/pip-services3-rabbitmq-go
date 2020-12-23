@@ -222,8 +222,10 @@ func (c *RabbitMQMessageQueue) OpenWithParams(correlationId string, connection *
 func (c *RabbitMQMessageQueue) Close(correlationId string) (err error) {
 
 	if c.cancel != nil {
-		c.cancel <- true
-		c.cancel = nil
+		_, ok := <-c.cancel
+		if ok {
+			c.cancel <- true
+		}
 	}
 
 	if c.mqChanel != nil {
@@ -383,15 +385,17 @@ func (c *RabbitMQMessageQueue) Receive(correlationId string, waitTimeout time.Du
 	}
 	err = nil
 
-	if c.cancel == nil {
-		c.cancel = make(chan bool)
-	}
 	var envelope *rabbitmq.Delivery
 	wg := sync.WaitGroup{}
 	wg.Add(1)
 
 	go func(timeout time.Duration) {
 		defer wg.Done()
+
+		if c.cancel == nil {
+			c.cancel = make(chan bool)
+		}
+
 		stop := false
 		for !stop {
 			if timeout <= 0 {
@@ -413,8 +417,10 @@ func (c *RabbitMQMessageQueue) Receive(correlationId string, waitTimeout time.Du
 			timeout = timeout - c.Interval
 		}
 
-		close(c.cancel)
-		c.cancel = nil
+		if c.cancel != nil {
+			close(c.cancel)
+			c.cancel = nil
+		}
 	}(waitTimeout)
 
 	wg.Wait()
@@ -518,11 +524,6 @@ func (c *RabbitMQMessageQueue) Listen(correlationId string, receiver msgqueues.I
 
 	c.Logger.Debug(correlationId, "Started listening messages at %s", c.Name)
 
-	// Create new cancelation token
-	if c.cancel == nil {
-		c.cancel = make(chan bool)
-	}
-
 	messageChannel, err := c.mqChanel.Consume(
 		c.queue,
 		c.exchange,
@@ -539,6 +540,11 @@ func (c *RabbitMQMessageQueue) Listen(correlationId string, receiver msgqueues.I
 	}
 
 	go func() {
+		// Create new cancelation token
+		if c.cancel == nil {
+			c.cancel = make(chan bool)
+		}
+
 		stop := false
 		for !stop {
 
@@ -560,8 +566,10 @@ func (c *RabbitMQMessageQueue) Listen(correlationId string, receiver msgqueues.I
 				}
 			}
 		}
-		close(c.cancel)
-		c.cancel = nil
+		if c.cancel != nil {
+			close(c.cancel)
+			c.cancel = nil
+		}
 	}()
 
 }
