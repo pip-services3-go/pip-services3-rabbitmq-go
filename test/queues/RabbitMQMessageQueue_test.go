@@ -14,11 +14,11 @@ func TestRabbitMQMessageQueue(t *testing.T) {
 	var queue *rabbitqueue.RabbitMQMessageQueue
 	var fixture *MessageQueueFixture
 
-	rabbitmqHost := os.Getenv("RABBITMQ_HOST")
+	rabbitmqHost := os.Getenv("RABBITMQ_SERVICE_HOST")
 	if rabbitmqHost == "" {
 		rabbitmqHost = "localhost"
 	}
-	rabbitmqPort := os.Getenv("RABBITMQ_PORT")
+	rabbitmqPort := os.Getenv("RABBITMQ_SERVICE_PORT")
 	if rabbitmqPort == "" {
 		rabbitmqPort = "5672"
 	}

@@ -1,14 +1,13 @@
 package queues
 
 import (
-	"sync"
 	"time"
 
 	cconf "github.com/pip-services3-go/pip-services3-commons-go/config"
 	cerr "github.com/pip-services3-go/pip-services3-commons-go/errors"
 	cauth "github.com/pip-services3-go/pip-services3-components-go/auth"
 	ccon "github.com/pip-services3-go/pip-services3-components-go/connect"
-	msgqueues "github.com/pip-services3-go/pip-services3-messaging-go/queues"
+	cqueues "github.com/pip-services3-go/pip-services3-messaging-go/queues"
 	mqcon "github.com/pip-services3-go/pip-services3-rabbitmq-go/connect"
 	rabbitmq "github.com/streadway/amqp"
 )
@@ -43,7 +42,7 @@ References:
 TODO: example
 */
 type RabbitMQMessageQueue struct {
-	*msgqueues.MessageQueue
+	*cqueues.MessageQueue
 	defaultCheckInterval int64
 	connection           *rabbitmq.Connection
 	mqChanel             *rabbitmq.Channel
@@ -64,7 +63,6 @@ type RabbitMQMessageQueue struct {
 //  Creates a new instance of the message queue.
 //  name(optional) a queue name.
 func NewEmptyRabbitMQMessageQueue(name string) *RabbitMQMessageQueue {
-
 	c := RabbitMQMessageQueue{
 		defaultCheckInterval: 1000,
 		exchange:             "",
@@ -78,16 +76,15 @@ func NewEmptyRabbitMQMessageQueue(name string) *RabbitMQMessageQueue {
 		cancel:               nil,
 	}
 
-	c.MessageQueue = msgqueues.NewMessageQueue(name)
-	c.MessageQueue.IMessageQueue = &c
-	c.Capabilities = msgqueues.NewMessagingCapabilities(true, true, true, true, true, false, true, false, true)
+	c.MessageQueue = cqueues.InheritMessageQueue(
+		&c, name,
+		cqueues.NewMessagingCapabilities(true, true, true, true, true, false, true, false, true))
 	c.Interval = time.Duration(c.defaultCheckInterval) * time.Millisecond
 	c.optionsResolver = mqcon.NewRabbitMQConnectionResolver()
 	return &c
 }
 
 func NewRabbitMQMessageQueueFromConfig(name string, config *cconf.ConfigParams) *RabbitMQMessageQueue {
-
 	c := NewEmptyRabbitMQMessageQueue(name)
 	if config != nil {
 		c.Configure(config)
@@ -96,7 +93,6 @@ func NewRabbitMQMessageQueueFromConfig(name string, config *cconf.ConfigParams) 
 }
 
 func NewRabbitMQMessageQueue(name string, mqChanel *rabbitmq.Channel, queue string) *RabbitMQMessageQueue {
-
 	c := NewEmptyRabbitMQMessageQueue(name)
 	c.mqChanel = mqChanel
 	c.queue = queue
@@ -137,9 +133,12 @@ func (c *RabbitMQMessageQueue) IsOpen() bool {
 
 //  Opens the component with given connection and credential parameters.
 //    - correlationId (optional) transaction id to trace execution through call chain.
-//    - connection connection parameters
+//    - connections connection parameters
 //    - credential credential parameters
-func (c *RabbitMQMessageQueue) OpenWithParams(correlationId string, connection *ccon.ConnectionParams, credential *cauth.CredentialParams) error {
+func (c *RabbitMQMessageQueue) OpenWithParams(correlationId string, connections []*ccon.ConnectionParams,
+	credential *cauth.CredentialParams) error {
+
+	connection := connections[0]
 
 	options, err := c.optionsResolver.Compose(correlationId, connection, credential)
 	if err != nil {
@@ -266,17 +265,17 @@ func (c *RabbitMQMessageQueue) ReadMessageCount() (count int64, err error) {
 
 }
 
-func (c *RabbitMQMessageQueue) toMessage(envelope *rabbitmq.Delivery) *msgqueues.MessageEnvelope {
+func (c *RabbitMQMessageQueue) toMessage(envelope *rabbitmq.Delivery) *cqueues.MessageEnvelope {
 	if envelope == nil {
 		return nil
 	}
 
-	message := msgqueues.MessageEnvelope{
-		Message_id:     envelope.MessageId,
-		Message_type:   envelope.Type,
-		Correlation_id: envelope.CorrelationId,
-		Message:        string(envelope.Body),
-		Sent_time:      time.Now(),
+	message := cqueues.MessageEnvelope{
+		MessageId:     envelope.MessageId,
+		MessageType:   envelope.Type,
+		CorrelationId: envelope.CorrelationId,
+		Message:       envelope.Body,
+		SentTime:      time.Now(),
 	}
 	message.SetReference(envelope)
 
@@ -287,7 +286,7 @@ func (c *RabbitMQMessageQueue) toMessage(envelope *rabbitmq.Delivery) *msgqueues
 //  Parameters:
 //    - correlationId (optional) transaction id to trace execution through call chain.
 //    - message a message envelop to be sent.
-func (c *RabbitMQMessageQueue) Send(correlationId string, message *msgqueues.MessageEnvelope) (err error) {
+func (c *RabbitMQMessageQueue) Send(correlationId string, message *cqueues.MessageEnvelope) (err error) {
 	err = c.checkOpened(correlationId)
 	if err != nil {
 		return err
@@ -297,23 +296,23 @@ func (c *RabbitMQMessageQueue) Send(correlationId string, message *msgqueues.Mes
 		ContentType: "text/plain",
 	}
 
-	if message.Correlation_id != "" {
-		messageBuffer.CorrelationId = message.Correlation_id
+	if message.CorrelationId != "" {
+		messageBuffer.CorrelationId = message.CorrelationId
 	}
-	if message.Message_id != "" {
-		messageBuffer.MessageId = message.Message_id
+	if message.MessageId != "" {
+		messageBuffer.MessageId = message.MessageId
 	}
-	
-	if message.Message_type != "" {
-		messageBuffer.Type = message.Message_type
+
+	if message.MessageType != "" {
+		messageBuffer.Type = message.MessageType
 	}
 
 	messageBuffer.Body = []byte(message.Message)
 
 	c.mqChanel.Publish(c.exchange, c.routingKey, false, false, messageBuffer)
 
-	c.Counters.IncrementOne("queue." + c.Name + ".sent_messages")
-	c.Logger.Debug(message.Correlation_id, "Sent message %s via %s", message, c)
+	c.Counters.IncrementOne("queue." + c.Name() + ".sent_messages")
+	c.Logger.Debug(message.CorrelationId, "Sent message %s via %s", message, c.Name())
 	return err
 }
 
@@ -322,7 +321,7 @@ func (c *RabbitMQMessageQueue) Send(correlationId string, message *msgqueues.Mes
 //  Parameters:
 //    - correlationId (optional) transaction id to trace execution through call chain.
 //  Returns: a message
-func (c *RabbitMQMessageQueue) Peek(correlationId string) (result *msgqueues.MessageEnvelope, err error) {
+func (c *RabbitMQMessageQueue) Peek(correlationId string) (result *cqueues.MessageEnvelope, err error) {
 	err = c.checkOpened(correlationId)
 	if err != nil {
 		return nil, err
@@ -338,7 +337,7 @@ func (c *RabbitMQMessageQueue) Peek(correlationId string) (result *msgqueues.Mes
 
 	message := c.toMessage(&envelope)
 	if message != nil {
-		c.Logger.Trace(message.Correlation_id, "Peeked message %s on %s", message, c.Name)
+		c.Logger.Trace(message.CorrelationId, "Peeked message %s on %s", message, c.Name())
 	}
 
 	return message, nil
@@ -350,13 +349,13 @@ func (c *RabbitMQMessageQueue) Peek(correlationId string) (result *msgqueues.Mes
 //    - correlationId (optional) transaction id to trace execution through call chain.
 //    - messageCount a maximum number of messages to peek.
 //  Returns: a list with messages
-func (c *RabbitMQMessageQueue) PeekBatch(correlationId string, messageCount int64) (result []msgqueues.MessageEnvelope, err error) {
+func (c *RabbitMQMessageQueue) PeekBatch(correlationId string, messageCount int64) (result []*cqueues.MessageEnvelope, err error) {
 	err = c.checkOpened(correlationId)
 	if err != nil {
 		return nil, err
 	}
 	err = nil
-	messages := make([]msgqueues.MessageEnvelope, 0)
+	messages := make([]*cqueues.MessageEnvelope, 0)
 	for messageCount > 0 {
 		envelope, ok, getErr := c.mqChanel.Get(c.queue, false)
 		if getErr != nil || !ok {
@@ -364,10 +363,10 @@ func (c *RabbitMQMessageQueue) PeekBatch(correlationId string, messageCount int6
 			break
 		}
 		message := c.toMessage(&envelope)
-		messages = append(messages, *message)
+		messages = append(messages, message)
 		messageCount--
 	}
-	c.Logger.Trace(correlationId, "Peeked %s messages on %s", len(messages), c.Name)
+	c.Logger.Trace(correlationId, "Peeked %s messages on %s", len(messages), c.Name())
 	return messages, err
 }
 
@@ -376,7 +375,7 @@ func (c *RabbitMQMessageQueue) PeekBatch(correlationId string, messageCount int6
 //    - correlationId (optional) transaction id to trace execution through call chain.
 //    - waitTimeout a timeout in milliseconds to wait for a message to come.
 //  Returns: a message
-func (c *RabbitMQMessageQueue) Receive(correlationId string, waitTimeout time.Duration) (result *msgqueues.MessageEnvelope, err error) {
+func (c *RabbitMQMessageQueue) Receive(correlationId string, waitTimeout time.Duration) (result *cqueues.MessageEnvelope, err error) {
 
 	err = c.checkOpened(correlationId)
 	if err != nil {
@@ -385,49 +384,43 @@ func (c *RabbitMQMessageQueue) Receive(correlationId string, waitTimeout time.Du
 	err = nil
 
 	var envelope *rabbitmq.Delivery
-	wg := sync.WaitGroup{}
-	wg.Add(1)
+	timeout := waitTimeout
 
-	go func(timeout time.Duration) {
-		defer wg.Done()
+	if c.cancel == nil {
+		c.cancel = make(chan bool)
+	}
 
-		if c.cancel == nil {
-			c.cancel = make(chan bool)
+	stop := false
+	for !stop {
+		if timeout <= 0 {
+			break
 		}
-
-		stop := false
-		for !stop {
-			if timeout <= 0 {
-				break
-			}
-			// Read the message and exit if received
-			env, ok, getErr := c.mqChanel.Get(c.queue, false) // true
-			if ok && getErr == nil {
-				envelope = &env
-				break
-			}
-			select {
-			case <-time.After(c.Interval):
-			case <-c.cancel:
-				{
-					stop = true
-				}
-			}
-			timeout = timeout - c.Interval
+		// Read the message and exit if received
+		env, ok, getErr := c.mqChanel.Get(c.queue, false) // true
+		if ok && getErr == nil {
+			envelope = &env
+			break
 		}
-
-		if c.cancel != nil {
-			close(c.cancel)
-			c.cancel = nil
+		select {
+		case <-time.After(c.Interval):
+		case <-c.cancel:
+			{
+				stop = true
+			}
 		}
-	}(waitTimeout)
+		timeout = timeout - c.Interval
+	}
 
-	wg.Wait()
+	if c.cancel != nil {
+		close(c.cancel)
+		c.cancel = nil
+	}
+
 	message := c.toMessage(envelope)
 
 	if message != nil {
-		c.Counters.IncrementOne("queue." + c.Name + ".received_messages")
-		c.Logger.Debug(message.Correlation_id, "Received message %s via %s", message, c)
+		c.Counters.IncrementOne("queue." + c.Name() + ".received_messages")
+		c.Logger.Debug(message.CorrelationId, "Received message %s via %s", message, c.Name())
 	}
 
 	return message, nil
@@ -439,8 +432,7 @@ func (c *RabbitMQMessageQueue) Receive(correlationId string, waitTimeout time.Du
 //  Parameters:
 //    - message a message to extend its lock.
 //    - lockTimeout a locking timeout in milliseconds.
-func (c *RabbitMQMessageQueue) RenewLock(message *msgqueues.MessageEnvelope, lockTimeout time.Duration) (err error) {
-
+func (c *RabbitMQMessageQueue) RenewLock(message *cqueues.MessageEnvelope, lockTimeout time.Duration) (err error) {
 	// Operation is not supported
 	return nil
 }
@@ -452,7 +444,7 @@ func (c *RabbitMQMessageQueue) RenewLock(message *msgqueues.MessageEnvelope, loc
 //  Important: This method is not supported by MQTT.
 //  Parameters:
 //    - message a message to return.
-func (c *RabbitMQMessageQueue) Abandon(message *msgqueues.MessageEnvelope) (err error) {
+func (c *RabbitMQMessageQueue) Abandon(message *cqueues.MessageEnvelope) (err error) {
 	err = c.checkOpened("")
 	if err != nil {
 		return err
@@ -467,7 +459,7 @@ func (c *RabbitMQMessageQueue) Abandon(message *msgqueues.MessageEnvelope) (err 
 			return err
 		}
 		message.SetReference(nil)
-		c.Logger.Trace(message.Correlation_id, "Abandoned message %s at %c", message, c.Name)
+		c.Logger.Trace(message.CorrelationId, "Abandoned message %s at %c", message, c.Name())
 	}
 	return nil
 }
@@ -477,7 +469,7 @@ func (c *RabbitMQMessageQueue) Abandon(message *msgqueues.MessageEnvelope) (err 
 //  Important: This method is not supported by MQTT.
 //  Parameters:
 //    - message a message to remove.
-func (c *RabbitMQMessageQueue) Complete(message *msgqueues.MessageEnvelope) (err error) {
+func (c *RabbitMQMessageQueue) Complete(message *cqueues.MessageEnvelope) (err error) {
 	err = c.checkOpened("")
 	if err != nil {
 		return err
@@ -487,7 +479,7 @@ func (c *RabbitMQMessageQueue) Complete(message *msgqueues.MessageEnvelope) (err
 	if ok {
 		c.mqChanel.Ack(envelope.DeliveryTag, false)
 		message.SetReference(nil)
-		c.Logger.Trace(message.Correlation_id, "Completed message %s at %s", message, c.Name)
+		c.Logger.Trace(message.CorrelationId, "Completed message %s at %s", message, c.Name())
 	}
 	return nil
 }
@@ -497,15 +489,8 @@ func (c *RabbitMQMessageQueue) Complete(message *msgqueues.MessageEnvelope) (err
 //  Parameters:
 //    - message a message to be removed.
 //  Returns:
-func (c *RabbitMQMessageQueue) MoveToDeadLetter(message *msgqueues.MessageEnvelope) (err error) {
-	err = c.checkOpened("")
-	if err != nil {
-		return err
-	}
-	err = nil
-
+func (c *RabbitMQMessageQueue) MoveToDeadLetter(message *cqueues.MessageEnvelope) (err error) {
 	// Operation is not supported
-
 	return nil
 }
 
@@ -514,14 +499,14 @@ func (c *RabbitMQMessageQueue) MoveToDeadLetter(message *msgqueues.MessageEnvelo
 //    - correlationId (optional) transaction id to trace execution through call chain.
 //    - callback
 //  Returns:
-func (c *RabbitMQMessageQueue) Listen(correlationId string, receiver msgqueues.IMessageReceiver) {
+func (c *RabbitMQMessageQueue) Listen(correlationId string, receiver cqueues.IMessageReceiver) error {
 	err := c.checkOpened("")
 	if err != nil {
 		c.Logger.Error(correlationId, err, "RabbitMQMessageQueue:Listen: Can't start listen "+err.Error())
-		return
+		return nil
 	}
 
-	c.Logger.Debug(correlationId, "Started listening messages at %s", c.Name)
+	c.Logger.Debug(correlationId, "Started listening messages at %s", c.Name())
 
 	messageChannel, err := c.mqChanel.Consume(
 		c.queue,
@@ -535,7 +520,7 @@ func (c *RabbitMQMessageQueue) Listen(correlationId string, receiver msgqueues.I
 
 	if err != nil {
 		c.Logger.Error(correlationId, err, "RabbitMQMessageQueue:Listen: Can't consume to queue"+err.Error())
-		return
+		return nil
 	}
 
 	go func() {
@@ -555,11 +540,11 @@ func (c *RabbitMQMessageQueue) Listen(correlationId string, receiver msgqueues.I
 			case msg := <-messageChannel:
 				{
 					message := c.toMessage(&msg)
-					c.Counters.IncrementOne("queue." + c.Name + ".received_messages")
-					c.Logger.Debug(message.Correlation_id, "Received message %s via %s", message, c.Name)
+					c.Counters.IncrementOne("queue." + c.Name() + ".received_messages")
+					c.Logger.Debug(message.CorrelationId, "Received message %s via %s", message, c.Name())
 					recvErr := receiver.ReceiveMessage(message, c)
 					if recvErr != nil {
-						c.Logger.Error(message.Correlation_id, recvErr, "Processing received message %s error in queue %s", message, c.Name)
+						c.Logger.Error(message.CorrelationId, recvErr, "Processing received message %s error in queue %s", message, c.Name())
 					}
 					c.mqChanel.Ack(msg.DeliveryTag, false)
 				}
@@ -571,6 +556,7 @@ func (c *RabbitMQMessageQueue) Listen(correlationId string, receiver msgqueues.I
 		}
 	}()
 
+	return nil
 }
 
 //  Ends listening for incoming messages.
@@ -598,7 +584,7 @@ func (c *RabbitMQMessageQueue) Clear(correlationId string) (err error) {
 		count, err = c.mqChanel.QueuePurge(c.queue, false)
 	}
 	if err == nil {
-		c.Logger.Trace(correlationId, "Cleared  %s messages in queue %s", count, c.Name)
+		c.Logger.Trace(correlationId, "Cleared  %s messages in queue %s", count, c.Name())
 	}
 	return err
 }
