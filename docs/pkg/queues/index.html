@@ -14,7 +14,7 @@
 
 
 
-<script>var goVersion = "go1.13.15";</script>
+<script>var goVersion = "go1.16.15";</script>
 <script src="../../lib/godoc/godocs.js" defer></script>
 </head>
 <body>
@@ -126,7 +126,7 @@
 				
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Abandon">func (c *RabbitMQMessageQueue) Abandon(message *msgqueues.MessageEnvelope) (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Abandon">func (c *RabbitMQMessageQueue) Abandon(message *cqueues.MessageEnvelope) (err error)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Clear">func (c *RabbitMQMessageQueue) Clear(correlationId string) (err error)</a></dd>
@@ -135,7 +135,7 @@
 					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Close">func (c *RabbitMQMessageQueue) Close(correlationId string) (err error)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Complete">func (c *RabbitMQMessageQueue) Complete(message *msgqueues.MessageEnvelope) (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Complete">func (c *RabbitMQMessageQueue) Complete(message *cqueues.MessageEnvelope) (err error)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Configure">func (c *RabbitMQMessageQueue) Configure(config *cconf.ConfigParams)</a></dd>
@@ -147,42 +147,31 @@
 					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.IsOpen">func (c *RabbitMQMessageQueue) IsOpen() bool</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Listen">func (c *RabbitMQMessageQueue) Listen(correlationId string, receiver msgqueues.IMessageReceiver)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Listen">func (c *RabbitMQMessageQueue) Listen(correlationId string, receiver cqueues.IMessageReceiver) error</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.MoveToDeadLetter">func (c *RabbitMQMessageQueue) MoveToDeadLetter(message *msgqueues.MessageEnvelope) (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.MoveToDeadLetter">func (c *RabbitMQMessageQueue) MoveToDeadLetter(message *cqueues.MessageEnvelope) (err error)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.OpenWithParams">func (c *RabbitMQMessageQueue) OpenWithParams(correlationId string, connection *ccon.ConnectionParams, credential *cauth.CredentialParams) error</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.OpenWithParams">func (c *RabbitMQMessageQueue) OpenWithParams(correlationId string, connections []*ccon.ConnectionParams, credential *cauth.CredentialParams) error</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Peek">func (c *RabbitMQMessageQueue) Peek(correlationId string) (result *msgqueues.MessageEnvelope, err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Peek">func (c *RabbitMQMessageQueue) Peek(correlationId string) (result *cqueues.MessageEnvelope, err error)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.PeekBatch">func (c *RabbitMQMessageQueue) PeekBatch(correlationId string, messageCount int64) (result []msgqueues.MessageEnvelope, err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.PeekBatch">func (c *RabbitMQMessageQueue) PeekBatch(correlationId string, messageCount int64) (result []*cqueues.MessageEnvelope, err error)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.ReadMessageCount">func (c *RabbitMQMessageQueue) ReadMessageCount() (count int64, err error)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Receive">func (c *RabbitMQMessageQueue) Receive(correlationId string, waitTimeout time.Duration) (result *msgqueues.MessageEnvelope, err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Receive">func (c *RabbitMQMessageQueue) Receive(correlationId string, waitTimeout time.Duration) (result *cqueues.MessageEnvelope, err error)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.RenewLock">func (c *RabbitMQMessageQueue) RenewLock(message *msgqueues.MessageEnvelope, lockTimeout time.Duration) (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.RenewLock">func (c *RabbitMQMessageQueue) RenewLock(message *cqueues.MessageEnvelope, lockTimeout time.Duration) (err error)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Send">func (c *RabbitMQMessageQueue) Send(correlationId string, message *msgqueues.MessageEnvelope) (err error)</a></dd>
-				
-			
-				
-				<dd><a href="index.html#RabbitMQMessageQueueFactory">type RabbitMQMessageQueueFactory</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewRabbitMQMessageQueueFactory">func NewRabbitMQMessageQueueFactory() *RabbitMQMessageQueueFactory</a></dd>
-				
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueueFactory.Configure">func (c *RabbitMQMessageQueueFactory) Configure(config *cconf.ConfigParams)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueue.Send">func (c *RabbitMQMessageQueue) Send(correlationId string, message *cqueues.MessageEnvelope) (err error)</a></dd>
 				
 			
 			
@@ -198,8 +187,6 @@
 			
 				<a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go">RabbitMQMessageQueue.go</a>
 			
-				<a href="http://localhost:6060/src/queues/RabbitMQMessageQueueFactory.go">RabbitMQMessageQueueFactory.go</a>
-			
 			</span>
 			</p>
 		
@@ -214,7 +201,7 @@
 		
 			
 			
-			<h2 id="RabbitMQMessageQueue">type <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=1638:2185#L35">RabbitMQMessageQueue</a>
+			<h2 id="RabbitMQMessageQueue">type <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=1671:2233#L34">RabbitMQMessageQueue</a>
 				<a class="permalink" href="index.html#RabbitMQMessageQueue">&#xb6;</a>
 				
 				
@@ -255,7 +242,7 @@ TODO: example
 </p>
 
 			<pre>type RabbitMQMessageQueue struct {
-    *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">msgqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageQueue">MessageQueue</a>
+    *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">cqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageQueue">MessageQueue</a>
 
 <span id="RabbitMQMessageQueue.Interval"></span>    Interval <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Duration">Duration</a>
     <span class="comment">// contains filtered or unexported fields</span>
@@ -272,7 +259,7 @@ TODO: example
 
 			
 				
-				<h3 id="NewEmptyRabbitMQMessageQueue">func <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=2269:2337#L56">NewEmptyRabbitMQMessageQueue</a>
+				<h3 id="NewEmptyRabbitMQMessageQueue">func <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=2321:2389#L55">NewEmptyRabbitMQMessageQueue</a>
 					<a class="permalink" href="index.html#NewEmptyRabbitMQMessageQueue">&#xb6;</a>
 					
 					
@@ -287,7 +274,7 @@ name(optional) a queue name.
 				
 			
 				
-				<h3 id="NewRabbitMQMessageQueue">func <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=3219:3324#L88">NewRabbitMQMessageQueue</a>
+				<h3 id="NewRabbitMQMessageQueue">func <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=3256:3361#L85">NewRabbitMQMessageQueue</a>
 					<a class="permalink" href="index.html#NewRabbitMQMessageQueue">&#xb6;</a>
 					
 					
@@ -298,7 +285,7 @@ name(optional) a queue name.
 				
 			
 				
-				<h3 id="NewRabbitMQMessageQueueFromConfig">func <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=3015:3116#L79">NewRabbitMQMessageQueueFromConfig</a>
+				<h3 id="NewRabbitMQMessageQueueFromConfig">func <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=3045:3146#L77">NewRabbitMQMessageQueueFromConfig</a>
 					<a class="permalink" href="index.html#NewRabbitMQMessageQueueFromConfig">&#xb6;</a>
 					
 					
@@ -311,12 +298,12 @@ name(optional) a queue name.
 
 			
 				
-				<h3 id="RabbitMQMessageQueue.Abandon">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=13131:13217#L440">Abandon</a>
+				<h3 id="RabbitMQMessageQueue.Abandon">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=13403:13487#L437">Abandon</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.Abandon">&#xb6;</a>
 					
 					
 				</h3>
-				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) Abandon(message *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">msgqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>) (err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) Abandon(message *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">cqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>) (err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Returnes message into the queue and makes it available for all subscribers to receive it again.
 This method is usually used to return a message which could not be processed at the moment
@@ -333,7 +320,7 @@ Parameters:
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.Clear">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=16738:16808#L573">Clear</a>
+				<h3 id="RabbitMQMessageQueue.Clear">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=17127:17197#L566">Clear</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.Clear">&#xb6;</a>
 					
 					
@@ -354,7 +341,7 @@ Returns:
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.Close">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=6655:6725#L212">Close</a>
+				<h3 id="RabbitMQMessageQueue.Close">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=6822:6892#L210">Close</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.Close">&#xb6;</a>
 					
 					
@@ -372,12 +359,12 @@ Close mwthod are closes component and frees used resources.
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.Complete">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=13869:13956#L465">Complete</a>
+				<h3 id="RabbitMQMessageQueue.Complete">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=14165:14250#L462">Complete</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.Complete">&#xb6;</a>
 					
 					
 				</h3>
-				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) Complete(message *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">msgqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>) (err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) Complete(message *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">cqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>) (err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Permanently removes a message from the queue.
 This method is usually used to remove the message after successful processing.
@@ -392,7 +379,7 @@ Parameters:
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.Configure">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=3535:3603#L98">Configure</a>
+				<h3 id="RabbitMQMessageQueue.Configure">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=3580:3648#L94">Configure</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.Configure">&#xb6;</a>
 					
 					
@@ -409,7 +396,7 @@ Configures component by passing configuration parameters.
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.EndListen">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=16465:16527#L563">EndListen</a>
+				<h3 id="RabbitMQMessageQueue.EndListen">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=16844:16906#L556">EndListen</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.EndListen">&#xb6;</a>
 					
 					
@@ -428,7 +415,7 @@ Parameters:
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.IsOpen">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=4787:4831#L124">IsOpen</a>
+				<h3 id="RabbitMQMessageQueue.IsOpen">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=4858:4902#L120">IsOpen</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.IsOpen">&#xb6;</a>
 					
 					
@@ -444,12 +431,12 @@ Retruns : true if the component has been opened and false otherwise.
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.Listen">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=14919:15015#L502">Listen</a>
+				<h3 id="RabbitMQMessageQueue.Listen">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=15171:15271#L492">Listen</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.Listen">&#xb6;</a>
 					
 					
 				</h3>
-				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) Listen(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>, receiver <a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">msgqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#IMessageReceiver">IMessageReceiver</a>)</pre>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) Listen(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>, receiver <a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">cqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#IMessageReceiver">IMessageReceiver</a>) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
 				<pre>Listens for incoming messages and blocks the current thread until queue is closed.
 </pre>
 <p>
@@ -465,12 +452,12 @@ Returns:
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.MoveToDeadLetter">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=14485:14580#L485">MoveToDeadLetter</a>
+				<h3 id="RabbitMQMessageQueue.MoveToDeadLetter">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=14800:14893#L482">MoveToDeadLetter</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.MoveToDeadLetter">&#xb6;</a>
 					
 					
 				</h3>
-				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) MoveToDeadLetter(message *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">msgqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>) (err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) MoveToDeadLetter(message *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">cqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>) (err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Permanently removes a message from the queue and sends it to dead letter queue.
 Important: This method is not supported by MQTT.
@@ -487,17 +474,18 @@ Returns:
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.OpenWithParams">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=5128:5272#L132">OpenWithParams</a>
+				<h3 id="RabbitMQMessageQueue.OpenWithParams">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=5208:5357#L128">OpenWithParams</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.OpenWithParams">&#xb6;</a>
 					
 					
 				</h3>
-				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) OpenWithParams(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>, connection *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/connect/">ccon</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/connect/#ConnectionParams">ConnectionParams</a>, credential *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/auth/">cauth</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/auth/#CredentialParams">CredentialParams</a>) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) OpenWithParams(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>, connections []*<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/connect/">ccon</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/connect/#ConnectionParams">ConnectionParams</a>,
+    credential *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/auth/">cauth</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/auth/#CredentialParams">CredentialParams</a>) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
 				<p>
 Opens the component with given connection and credential parameters.
 </p>
 <pre>- correlationId (optional) transaction id to trace execution through call chain.
-- connection connection parameters
+- connections connection parameters
 - credential credential parameters
 </pre>
 
@@ -506,12 +494,12 @@ Opens the component with given connection and credential parameters.
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.Peek">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=9391:9495#L314">Peek</a>
+				<h3 id="RabbitMQMessageQueue.Peek">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=9623:9725#L314">Peek</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.Peek">&#xb6;</a>
 					
 					
 				</h3>
-				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) Peek(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (result *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">msgqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>, err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) Peek(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (result *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">cqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>, err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Peeks a single incoming message from the queue without removing it.
 If there are no messages available in the queue it returns nil.
@@ -528,12 +516,12 @@ Returns: a message
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.PeekBatch">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=10235:10365#L342">PeekBatch</a>
+				<h3 id="RabbitMQMessageQueue.PeekBatch">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=10494:10623#L342">PeekBatch</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.PeekBatch">&#xb6;</a>
 					
 					
 				</h3>
-				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) PeekBatch(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>, messageCount <a href="http://localhost:6060/pkg/builtin/#int64">int64</a>) (result []<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">msgqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>, err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) PeekBatch(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>, messageCount <a href="http://localhost:6060/pkg/builtin/#int64">int64</a>) (result []*<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">cqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>, err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
 				<p>
 PeekBatch method are peeks multiple incoming messages from the queue without removing them.
 If there are no messages available in the queue it returns an empty list.
@@ -551,7 +539,7 @@ Returns: a list with messages
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.ReadMessageCount">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=7216:7290#L238">ReadMessageCount</a>
+				<h3 id="RabbitMQMessageQueue.ReadMessageCount">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=7431:7505#L238">ReadMessageCount</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.ReadMessageCount">&#xb6;</a>
 					
 					
@@ -568,12 +556,12 @@ number of messages or error.
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.Receive">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=11130:11264#L368">Receive</a>
+				<h3 id="RabbitMQMessageQueue.Receive">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=11414:11546#L368">Receive</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.Receive">&#xb6;</a>
 					
 					
 				</h3>
-				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) Receive(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>, waitTimeout <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Duration">Duration</a>) (result *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">msgqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>, err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) Receive(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>, waitTimeout <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Duration">Duration</a>) (result *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">cqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>, err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Receive method are receives an incoming message and removes it from the queue.
 Parameters:
@@ -590,12 +578,12 @@ Returns: a message
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.RenewLock">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=12531:12646#L427">RenewLock</a>
+				<h3 id="RabbitMQMessageQueue.RenewLock">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=12794:12907#L425">RenewLock</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.RenewLock">&#xb6;</a>
 					
 					
 				</h3>
-				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) RenewLock(message *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">msgqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>, lockTimeout <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Duration">Duration</a>) (err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) RenewLock(message *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">cqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>, lockTimeout <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Duration">Duration</a>) (err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Renews a lock on a message that makes it invisible from other receivers in the queue.
 This method is usually used to extend the message processing time.
@@ -611,12 +599,12 @@ Parameters:
 				
 			
 				
-				<h3 id="RabbitMQMessageQueue.Send">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=8298:8403#L279">Send</a>
+				<h3 id="RabbitMQMessageQueue.Send">func (*RabbitMQMessageQueue) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueue.go?s=8537:8640#L279">Send</a>
 					<a class="permalink" href="index.html#RabbitMQMessageQueue.Send">&#xb6;</a>
 					
 					
 				</h3>
-				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) Send(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>, message *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">msgqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>) (err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueue">RabbitMQMessageQueue</a>) Send(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>, message *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">cqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#MessageEnvelope">MessageEnvelope</a>) (err <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Send method are sends a message into the queue.
 Parameters:
@@ -625,57 +613,6 @@ Parameters:
 - message a message envelop to be sent.
 </pre>
 
-				
-				
-				
-			
-		
-			
-			
-			<h2 id="RabbitMQMessageQueueFactory">type <a href="http://localhost:6060/src/queues/RabbitMQMessageQueueFactory.go?s=236:405#L1">RabbitMQMessageQueueFactory</a>
-				<a class="permalink" href="index.html#RabbitMQMessageQueueFactory">&#xb6;</a>
-				
-				
-			</h2>
-			
-			<pre>type RabbitMQMessageQueueFactory struct {
-    *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/build/">cbuild</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/build/#Factory">Factory</a>
-<span id="RabbitMQMessageQueueFactory.Descriptor"></span>    Descriptor            *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/">cref</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/#Descriptor">Descriptor</a>
-<span id="RabbitMQMessageQueueFactory.MemoryQueueDescriptor"></span>    MemoryQueueDescriptor *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/">cref</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/#Descriptor">Descriptor</a>
-    <span class="comment">// contains filtered or unexported fields</span>
-}
-</pre>
-
-			
-
-			
-
-			
-			
-			
-
-			
-				
-				<h3 id="NewRabbitMQMessageQueueFactory">func <a href="http://localhost:6060/src/queues/RabbitMQMessageQueueFactory.go?s=407:473#L7">NewRabbitMQMessageQueueFactory</a>
-					<a class="permalink" href="index.html#NewRabbitMQMessageQueueFactory">&#xb6;</a>
-					
-					
-				</h3>
-				<pre>func NewRabbitMQMessageQueueFactory() *<a href="index.html#RabbitMQMessageQueueFactory">RabbitMQMessageQueueFactory</a></pre>
-				
-				
-				
-			
-
-			
-				
-				<h3 id="RabbitMQMessageQueueFactory.Configure">func (*RabbitMQMessageQueueFactory) <a href="http://localhost:6060/src/queues/RabbitMQMessageQueueFactory.go?s=984:1059#L23">Configure</a>
-					<a class="permalink" href="index.html#RabbitMQMessageQueueFactory.Configure">&#xb6;</a>
-					
-					
-				</h3>
-				<pre>func (c *<a href="index.html#RabbitMQMessageQueueFactory">RabbitMQMessageQueueFactory</a>) Configure(config *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/config/">cconf</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/config/#ConfigParams">ConfigParams</a>)</pre>
-				
 				
 				
 				
@@ -692,13 +629,13 @@ Parameters:
 
 
 <div id="footer">
-Build version go1.13.15.<br>
+Build version go1.16.15.<br>
 Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
 the content of this page is licensed under the
 Creative Commons Attribution 3.0 License,
 and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
-<a href="http://localhost:6060/doc/tos.html">Terms of Service</a> |
-<a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
 </div>
 
 </div><!-- .container -->

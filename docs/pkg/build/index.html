@@ -14,7 +14,7 @@
 
 
 
-<script>var goVersion = "go1.13.15";</script>
+<script>var goVersion = "go1.16.15";</script>
 <script src="../../lib/godoc/godocs.js" defer></script>
 </head>
 <body>
@@ -120,6 +120,23 @@
 				
 				
 			
+				
+				<dd><a href="index.html#RabbitMQMessageQueueFactory">type RabbitMQMessageQueueFactory</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#NewRabbitMQMessageQueueFactory">func NewRabbitMQMessageQueueFactory() *RabbitMQMessageQueueFactory</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueueFactory.Configure">func (c *RabbitMQMessageQueueFactory) Configure(config *cconf.ConfigParams)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueueFactory.CreateQueue">func (c *RabbitMQMessageQueueFactory) CreateQueue(name string) cqueues.IMessageQueue</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#RabbitMQMessageQueueFactory.SetReferences">func (c *RabbitMQMessageQueueFactory) SetReferences(references cref.IReferences)</a></dd>
+				
+			
 			
 			</dl>
 			</div><!-- #manual-nav -->
@@ -132,6 +149,8 @@
 			<span style="font-size:90%">
 			
 				<a href="http://localhost:6060/src/build/DefaultRabbitMQFactory.go">DefaultRabbitMQFactory.go</a>
+			
+				<a href="http://localhost:6060/src/build/RabbitMQMessageQueueFactory.go">RabbitMQMessageQueueFactory.go</a>
 			
 			</span>
 			</p>
@@ -147,7 +166,7 @@
 		
 			
 			
-			<h2 id="DefaultRabbitMQFactory">type <a href="http://localhost:6060/src/build/DefaultRabbitMQFactory.go?s=330:727#L1">DefaultRabbitMQFactory</a>
+			<h2 id="DefaultRabbitMQFactory">type <a href="http://localhost:6060/src/build/DefaultRabbitMQFactory.go?s=340:396#L1">DefaultRabbitMQFactory</a>
 				<a class="permalink" href="index.html#DefaultRabbitMQFactory">&#xb6;</a>
 				
 				
@@ -158,13 +177,7 @@ See RabbitMQMessageQueue
 </p>
 
 			<pre>type DefaultRabbitMQFactory struct {
-    *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/build/">cbuild</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/build/#Factory">Factory</a>
-<span id="DefaultRabbitMQFactory.Descriptor"></span>    Descriptor                             *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/">cref</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/#Descriptor">Descriptor</a>
-<span id="DefaultRabbitMQFactory.Descriptor3"></span>    Descriptor3                            *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/">cref</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/#Descriptor">Descriptor</a>
-<span id="DefaultRabbitMQFactory.RabbitMQMessageQueueFactoryDescriptor"></span>    RabbitMQMessageQueueFactoryDescriptor  *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/">cref</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/#Descriptor">Descriptor</a>
-<span id="DefaultRabbitMQFactory.RabbitMQMessageQueueFactory3Descriptor"></span>    RabbitMQMessageQueueFactory3Descriptor *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/">cref</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/#Descriptor">Descriptor</a>
-<span id="DefaultRabbitMQFactory.RabbitMQMessageQueueDescriptor"></span>    RabbitMQMessageQueueDescriptor         *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/">cref</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/#Descriptor">Descriptor</a>
-<span id="DefaultRabbitMQFactory.RabbitMQMessageQueue3Descriptor"></span>    RabbitMQMessageQueue3Descriptor        *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/">cref</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/#Descriptor">Descriptor</a>
+    <a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/build/">cbuild</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/build/#Factory">Factory</a>
 }
 </pre>
 
@@ -178,7 +191,7 @@ See RabbitMQMessageQueue
 
 			
 				
-				<h3 id="NewDefaultRabbitMQFactory">func <a href="http://localhost:6060/src/build/DefaultRabbitMQFactory.go?s=807:863#L12">NewDefaultRabbitMQFactory</a>
+				<h3 id="NewDefaultRabbitMQFactory">func <a href="http://localhost:6060/src/build/DefaultRabbitMQFactory.go?s=479:535#L6">NewDefaultRabbitMQFactory</a>
 					<a class="permalink" href="index.html#NewDefaultRabbitMQFactory">&#xb6;</a>
 					
 					
@@ -194,6 +207,87 @@ NewDefaultRabbitMQFactory method are create a new instance of the factory.
 
 			
 		
+			
+			
+			<h2 id="RabbitMQMessageQueueFactory">type <a href="http://localhost:6060/src/build/RabbitMQMessageQueueFactory.go?s=389:513#L1">RabbitMQMessageQueueFactory</a>
+				<a class="permalink" href="index.html#RabbitMQMessageQueueFactory">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type RabbitMQMessageQueueFactory struct {
+    <a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/build/">cbuild</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-components-go/build/#Factory">Factory</a>
+    <span class="comment">// contains filtered or unexported fields</span>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="NewRabbitMQMessageQueueFactory">func <a href="http://localhost:6060/src/build/RabbitMQMessageQueueFactory.go?s=517:583#L7">NewRabbitMQMessageQueueFactory</a>
+					<a class="permalink" href="index.html#NewRabbitMQMessageQueueFactory">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func NewRabbitMQMessageQueueFactory() *<a href="index.html#RabbitMQMessageQueueFactory">RabbitMQMessageQueueFactory</a></pre>
+				
+				
+				
+			
+
+			
+				
+				<h3 id="RabbitMQMessageQueueFactory.Configure">func (*RabbitMQMessageQueueFactory) <a href="http://localhost:6060/src/build/RabbitMQMessageQueueFactory.go?s=1033:1108#L25">Configure</a>
+					<a class="permalink" href="index.html#RabbitMQMessageQueueFactory.Configure">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueueFactory">RabbitMQMessageQueueFactory</a>) Configure(config *<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/config/">cconf</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/config/#ConfigParams">ConfigParams</a>)</pre>
+				
+				
+				
+				
+			
+				
+				<h3 id="RabbitMQMessageQueueFactory.CreateQueue">func (*RabbitMQMessageQueueFactory) <a href="http://localhost:6060/src/build/RabbitMQMessageQueueFactory.go?s=1385:1469#L37">CreateQueue</a>
+					<a class="permalink" href="index.html#RabbitMQMessageQueueFactory.CreateQueue">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueueFactory">RabbitMQMessageQueueFactory</a>) CreateQueue(name <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/">cqueues</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-messaging-go/queues/#IMessageQueue">IMessageQueue</a></pre>
+				<p>
+Creates a message queue component and assigns its name.
+</p>
+<p>
+Parameters:
+</p>
+<pre>- name: a name of the created message queue.
+</pre>
+
+				
+				
+				
+			
+				
+				<h3 id="RabbitMQMessageQueueFactory.SetReferences">func (*RabbitMQMessageQueueFactory) <a href="http://localhost:6060/src/build/RabbitMQMessageQueueFactory.go?s=1137:1217#L29">SetReferences</a>
+					<a class="permalink" href="index.html#RabbitMQMessageQueueFactory.SetReferences">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#RabbitMQMessageQueueFactory">RabbitMQMessageQueueFactory</a>) SetReferences(references <a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/">cref</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-go/pip-services3-commons-go/refer/#IReferences">IReferences</a>)</pre>
+				
+				
+				
+				
+			
+		
 	
 
 	
@@ -205,13 +299,13 @@ NewDefaultRabbitMQFactory method are create a new instance of the factory.
 
 
 <div id="footer">
-Build version go1.13.15.<br>
+Build version go1.16.15.<br>
 Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
 the content of this page is licensed under the
 Creative Commons Attribution 3.0 License,
 and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
-<a href="http://localhost:6060/doc/tos.html">Terms of Service</a> |
-<a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
 </div>
 
 </div><!-- .container -->
